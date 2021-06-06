@@ -1,0 +1,188 @@
+{% extends "base.html"%}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/stylesheet.css">
+
+  <title>YouTube Comments</title>
+</head>
+
+<body>
+
+  <div class="jumbotron jumbotron">
+    <div class="container">
+      <center>
+
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+
+            <div class="alert alert-warning" role="alert">
+              <a href="https://github.com/imvickykumar999/hackathon-iot-car-parking/stargazers">
+
+                <h1 style="color:red;">
+                  <strong>
+                    YouTube Comment Reader
+                    <br>
+                    <em style="color:green;">See Code on GitHub</em>
+                  </strong>
+                </h1>
+
+              </a>
+            </div>
+
+            <br><br>
+
+            <form method="post" action="/converted_vickstube">
+              <div class="alert alert-danger" role="alert">
+                <center>
+
+                  <div class="alert alert-primary" role="alert">
+                    <h3>
+                      <strong>Enter YouTube Video Title,<br>Video ID or, URL : </strong>
+                    </h3>
+
+                    <input type="text" name="ytc" placeholder="Type Title or, Paste URL here"/>
+                    <br><br>
+                  </div>
+
+                  <div class="alert alert-success" role="alert">
+                    <h3>
+                      <strong>Want to Download <br> Video or Audio ? (V / A) : </strong>
+                    </h3>
+
+                    <input type="text" name="ytdownload" placeholder="Write A for Audio, V for Video"/>
+                    <br><br>
+                  </div>
+
+                  <!-- <div class="alert alert-success" role="alert"> -->
+                    <input type="image"
+                           src="../static/logo/submit.png"
+                           width="200"
+                           height="60"
+                           alt="submit"/>
+                  <!-- </div> -->
+
+                </center>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </center>
+    </div>
+  </div>
+
+  <div class="jumbotron">
+    <div class="container">
+
+      <center>
+        <div class="class="video-container"">
+          <iframe
+                  src="https://www.youtube.com/embed/{{vid}}?autoplay={{ap}}&start={{tm}}&loop=1"
+                  frameborder="0"
+                  allow="autoplay; encrypted-media" allowfullscreen>
+          </iframe>
+        </div>
+
+        {% if wanna_download == "V" %}
+        <br><br>
+
+          <a class="btn btn-primary" href="uploads/videos/{{title}}.mp4">
+            <h3>Click me to<br>Download Video</h3>
+          </a>
+        {% endif %}
+
+        {% if wanna_download == "A" %}
+        <br><br>
+          <div class="alert alert-danger" role="alert">
+
+            <audio controls autoplay muted>
+              <source src="uploads/audio/{{title}}.mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+
+          <!-- <a class="btn btn-primary" href="uploads/audio/{{title}}.mp3">
+            <h3>Click me to<br>Download Audio</h3>
+          </a> -->
+        {% endif %}
+
+      </center>
+    </div>
+  </div>
+
+  <div class="jumbotron">
+    <div class="container">
+
+      <center>
+        <strong>
+            <em>
+
+              <a class="btn btn-warning" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <h3>Click me to... <br>See Comments</h3>
+              </a>
+
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <div class="container">
+
+                      {% for key, value in dict.items() %}
+                        <div class="alert alert-success" role="alert">
+
+                          {% if value %}
+
+                            <a class="btn btn-primary" data-toggle="collapse" href="#{{key}}" role="button" aria-expanded="false" aria-controls="{{key}}">
+                              <h1>{{key}}</h1>
+                            </a>
+
+                          {% else %}
+
+                          <h1>
+                            {{key}}
+                          </h1>
+
+                          {% endif %}
+
+                          {% if value %}
+                            <div class="collapse" id="{{key}}">
+                              <div class="card card-body">
+
+                                <div>
+                                  {% for i in value %}
+
+                                  <div class="alert alert-danger" role="alert">
+                                    <h3>
+                                      {{i}}
+                                    </h3>
+                                  </div>
+
+                                  {% endfor %}
+                                </div>
+
+                              </div>
+                            </div>
+                          {% endif %}
+
+                        </div>
+                      {% endfor %}
+
+                  </div>
+                </div>
+              </div>
+
+            </em>
+          </strong>
+        </center>
+
+      </div>
+    </div>
+
+</body>
+</html>
+
+{% endblock %}
